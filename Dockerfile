@@ -68,6 +68,12 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     ros-noetic-tf2-sensor-msgs \
     && rm -rf /var/lib/apt/lists/*
 
+# Install fmt library
+RUN git clone --depth 1 https://github.com/fmtlib/fmt.git -b 6.2.0 && cd fmt \
+  && mkdir build && cd build \
+  && cmake .. && make -j all install \
+  && rm -rf /fmt
+
 # $USER_NAME Inherited from .base/Dockerfile
 WORKDIR /home/$USER_NAME/ros_ws
 CMD ["zsh"]

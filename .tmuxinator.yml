@@ -26,7 +26,7 @@ tmux_command: tmux -2
 windows:
   - build:
       panes:
-        - catkin build
+        - catkin build --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
   - ros:
       layout: even-horizontal
       panes:
