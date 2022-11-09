@@ -53,15 +53,20 @@ RUN git clone --depth 1 https://github.com/nachovizzo/openvdb.git -b nacho/vdbfu
     && rm -rf /openvdb
 
 # Install hidden dependencies, glog+gflags
+RUN git clone https://github.com/gflags/gflags.git && cd gflags \
+    && mkdir build && cd build && cmake -DBUILD_SHARED_LIBS=ON .. \
+    && make -j$(nproc) all install \
+    && rm -rf /gflags
+
 RUN git clone -b v0.4.0 https://github.com/google/glog.git && cd glog \
     && mkdir build && cd build && cmake .. \
     && make -j$(nproc) all install \
     && rm -rf /glog
 
-RUN git clone https://github.com/gflags/gflags.git && cd gflags \
-    && mkdir build && cd build && cmake -DBUILD_SHARED_LIBS=ON .. \
-    && make -j$(nproc) all install \
-    && rm -rf /gflags
+# Install extra ROS dependencies
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    ros-noetic-tf2-sensor-msgs \
+    && rm -rf /var/lib/apt/lists/*
 
 # $USER_NAME Inherited from .base/Dockerfile
 WORKDIR /home/$USER_NAME/ros_ws
