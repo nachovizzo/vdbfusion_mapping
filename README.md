@@ -14,7 +14,17 @@ make build  # build the whole thing
 make dev    # enter hacker mode(developer mode)
 ```
 
+
 After this, just follow whatever instructions to launch you can find in the original repository of
 [vdbfusion_mapping](https://github.com/Kin-Zhang/vdbfusion_mapping) on Docker
 
 **NOTE:** Make sure to load your data into the contianer by `export ROS_BAGS=<path>`
+
+In my particular case I can run the pipeline by just doing the following
+
+```sh
+export ROS_BAGS=/home/ivizzo/data/voxblox/
+make run
+# inside the container
+roslaunch vdbfusion_ros vdbfusion_mapping_cow.launch bag_file:=$(realpath bags/data.bag)
+```

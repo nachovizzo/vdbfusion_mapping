@@ -65,6 +65,9 @@ RUN git clone --depth 1 https://github.com/fmtlib/fmt.git -b 6.2.0 && cd fmt \
   && cmake .. && make -j all install \
   && rm -rf /fmt
 
+# Add user to video group to visualize the thing
+RUN usermod -aG video $USER_NAME
+
 # $USER_NAME Inherited from .base/Dockerfile
 WORKDIR /home/$USER_NAME/ros_ws
 CMD ["zsh"]
