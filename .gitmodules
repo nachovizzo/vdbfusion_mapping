@@ -1,0 +1,3 @@
+[submodule "src/vdbfusion_mapping"]
+	path = src/vdbfusion_mapping
+	url = https://github.com/Kin-Zhang/vdbfusion_mapping.git
