@@ -74,6 +74,9 @@ RUN git clone --depth 1 https://github.com/fmtlib/fmt.git -b 6.2.0 && cd fmt \
   && cmake .. && make -j all install \
   && rm -rf /fmt
 
+# Install Open3D dependencies
+RUN bash -c "$(curl -fsSL https://github.com/isl-org/Open3D/raw/v0.16.0/util/install_deps_ubuntu.sh)" "" assume-yes
+
 # $USER_NAME Inherited from .base/Dockerfile
 WORKDIR /home/$USER_NAME/ros_ws
 CMD ["zsh"]
