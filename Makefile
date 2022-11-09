@@ -42,3 +42,15 @@ clean:
 
 run:
 	@docker-compose run --rm ros
+
+init:
+	git submodule init
+	git submodule update --recursive
+	cp patch.diff src/vdbfusion_mapping/ 
+	cd src/vdbfusion_mapping/ && git apply patch.diff && rm patch.diff
+	git submodule init
+	git submodule update --recursive
+	cd ../../
+
+
+

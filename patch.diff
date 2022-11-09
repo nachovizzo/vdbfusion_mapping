@@ -1,0 +1,31 @@
+commit cc8c6d7670d0367dcff532cd4e7a3362a728c948
+Author: Ignacio Vizzo <ignaciovizzo@gmail.com>
+Date:   Wed Nov 9 17:06:15 2022 +0100
+
+    Fix build
+
+diff --git a/vdbfusion_mapping/CMakeLists.txt b/vdbfusion_mapping/CMakeLists.txt
+index b9163ac..2d62a20 100644
+--- a/vdbfusion_mapping/CMakeLists.txt
++++ b/vdbfusion_mapping/CMakeLists.txt
+@@ -22,9 +22,7 @@ find_package(OpenVDB REQUIRED)
+ list(PREPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+ 
+ # Find installed Open3D, which exports Open3D::Open3D
+-list(APPEND CMAKE_MODULE_PATH "/usr/local/lib/cmake/open3d")
+ find_package(Open3D REQUIRED)
+-include_directories("/usr/local/include/open3d/3rdparty")
+ # Libigl
+ include(libigl)
+ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/cmake/libigl/include")
+@@ -38,6 +36,10 @@ cs_add_library(${PROJECT_NAME}
+         src/transform.cpp
+         )
+ 
++target_link_libraries(${PROJECT_NAME}
++        Open3D::Open3D
++        )
++
+ ###############
+ # Executables #
+ ###############
