@@ -22,27 +22,23 @@
 FROM ignaciovizzo/ros_in_docker:noetic
 LABEL maintainer="Ignacio Vizzo <ignaciovizzo@gmail.com>"
 
-# RUN pip install --no-cache cmake>=3.20
-
-# Install Open3D dependencies
-RUN apt-get update && apt-get install --no-install-recommends -y \
-    libc++-dev \
-    && rm -rf /var/lib/apt/lists/*
-
 # Install Open3D
-RUN wget --no-verbose --show-progress --progress=dot:mega \
+RUN bash -c "$(curl -fsSL https://github.com/isl-org/Open3D/raw/v0.16.0/util/install_deps_ubuntu.sh)" "" assume-yes \
+    && wget --no-verbose --show-progress --progress=dot:mega \
     https://github.com/isl-org/Open3D/releases/download/v0.16.0/open3d-devel-linux-x86_64-pre-cxx11-abi-0.16.0.tar.xz \
     && tar --xz -xvf open3d-devel-linux-x86_64-pre-cxx11-abi-0.16.0.tar.xz \
     && cp -r  /open3d-devel-linux-x86_64-pre-cxx11-abi-0.16.0/* /usr/local/ \
     && rm -rf /open3d-devel-linux-x86_64-pre-cxx11-abi-0.16.0*
 
-# Install OpenVDB dependencies
+# Install extra dependencies
 RUN apt-get update && apt-get install --no-install-recommends -y \
     libblosc-dev \
     libboost-iostreams-dev \
     libboost-system-dev \
     libboost-system-dev \
-    libeigen3-dev
+    libeigen3-dev \
+    ros-noetic-tf2-sensor-msgs \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install OpenVDB from source
 RUN git clone --depth 1 https://github.com/nachovizzo/openvdb.git -b nacho/vdbfusion \
@@ -63,19 +59,11 @@ RUN git clone -b v0.4.0 https://github.com/google/glog.git && cd glog \
     && make -j$(nproc) all install \
     && rm -rf /glog
 
-# Install extra ROS dependencies
-RUN apt-get update && apt-get install --no-install-recommends -y \
-    ros-noetic-tf2-sensor-msgs \
-    && rm -rf /var/lib/apt/lists/*
-
 # Install fmt library
 RUN git clone --depth 1 https://github.com/fmtlib/fmt.git -b 6.2.0 && cd fmt \
   && mkdir build && cd build \
   && cmake .. && make -j all install \
   && rm -rf /fmt
-
-# Install Open3D dependencies
-RUN bash -c "$(curl -fsSL https://github.com/isl-org/Open3D/raw/v0.16.0/util/install_deps_ubuntu.sh)" "" assume-yes
 
 # $USER_NAME Inherited from .base/Dockerfile
 WORKDIR /home/$USER_NAME/ros_ws
