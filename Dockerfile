@@ -25,10 +25,10 @@ LABEL maintainer="Ignacio Vizzo <ignaciovizzo@gmail.com>"
 # Install Open3D
 RUN bash -c "$(curl -fsSL https://github.com/isl-org/Open3D/raw/v0.16.0/util/install_deps_ubuntu.sh)" "" assume-yes \
     && wget --no-verbose --show-progress --progress=dot:mega \
-    https://github.com/isl-org/Open3D/releases/download/v0.16.0/open3d-devel-linux-x86_64-pre-cxx11-abi-0.16.0.tar.xz \
-    && tar --xz -xvf open3d-devel-linux-x86_64-pre-cxx11-abi-0.16.0.tar.xz \
-    && cp -r  /open3d-devel-linux-x86_64-pre-cxx11-abi-0.16.0/* /usr/local/ \
-    && rm -rf /open3d-devel-linux-x86_64-pre-cxx11-abi-0.16.0*
+    https://github.com/isl-org/Open3D/releases/download/v0.16.0/open3d-devel-linux-x86_64-cxx11-abi-0.16.0.tar.xz \
+    && tar --xz -xvf open3d-devel-linux-x86_64-cxx11-abi-0.16.0.tar.xz \
+    && cp -r  /open3d-devel-linux-x86_64-cxx11-abi-0.16.0/* /usr/local/ \
+    && rm -rf /open3d-devel-linux-x86_64-cxx11-abi-0.16.0*
 
 # Install extra dependencies
 RUN apt-get update && apt-get install --no-install-recommends -y \
